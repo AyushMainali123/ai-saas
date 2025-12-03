@@ -1,10 +1,10 @@
 import {
-    CommandDialog,
     CommandEmpty,
     CommandGroup,
     CommandInput,
     CommandItem,
     CommandList,
+    ResponsiveCommandDialog,
 } from "@/components/ui/command"
 
 
@@ -15,7 +15,7 @@ interface IDashboardCommandProps {
 
 export function DashboardCommand({ open, setOpen }: IDashboardCommandProps) {
     return (
-        <CommandDialog open={open} onOpenChange={setOpen}>
+        <ResponsiveCommandDialog open={open} onOpenChange={setOpen} title="Find meetings or agents" description="Select meetings or agents from the command box below">
             <CommandInput placeholder="Find meetings or agents" />
             <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
@@ -24,6 +24,6 @@ export function DashboardCommand({ open, setOpen }: IDashboardCommandProps) {
                     <CommandItem>Agents</CommandItem>
                 </CommandGroup>
             </CommandList>
-        </CommandDialog>
+        </ResponsiveCommandDialog>
     )
 }

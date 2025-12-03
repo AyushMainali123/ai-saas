@@ -32,7 +32,7 @@ export function DashboardNavbar() {
                 <div className="flex-1 flex">
                     <Button
                         variant="outline"
-                        className="w-full max-w-sm justify-start text-muted-foreground relative"
+                        className="w-full items-center gap-0 max-w-sm justify-start text-muted-foreground relative"
                         onClick={() => setOpen(true)}
                     >
                         <SearchIcon className="mr-2 h-4 w-4" />

@@ -12,6 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { Drawer, DrawerContent, DrawerHeader } from "./drawer"
 
 function Command({
   className,
@@ -171,6 +173,41 @@ function CommandShortcut({
   )
 }
 
+function ResponsiveCommandDialog({
+  title = "Command Palette",
+  description = "Search for a command to run...",
+  children,
+  showCloseButton = true,
+  ...props
+}: React.ComponentProps<typeof Dialog> & {
+  title?: string
+  description?: string
+  showCloseButton?: boolean
+}) {
+  const isMobile = useIsMobile();
+
+  if (isMobile)
+    return (
+      <Drawer {...props}>
+        <DrawerContent>
+          <DrawerHeader className="sr-only">
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </DrawerHeader>
+          <Command className="[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+            {children}
+          </Command>
+        </DrawerContent>
+      </Drawer>
+    );
+
+  return (
+    <CommandDialog title={title} description={description} showCloseButton={showCloseButton} {...props}>
+      {children}
+    </CommandDialog>
+  );
+}
+
 export {
   Command,
   CommandDialog,
@@ -181,4 +218,5 @@ export {
   CommandItem,
   CommandShortcut,
   CommandSeparator,
+  ResponsiveCommandDialog
 }
