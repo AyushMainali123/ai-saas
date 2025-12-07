@@ -1,24 +1,40 @@
 import { db } from "@/db";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { agentsInsertSchema } from "../schemas";
+import { agentsGetManySchema, agentsInsertSchema } from "../schemas";
 import { agents } from "@/db/schema";
 import { z } from "zod";
-import { eq, getTableColumns, sql, } from "drizzle-orm";
+import { and, count, desc, eq, getTableColumns, ilike, sql, } from "drizzle-orm";
 
 export const agentsRouter = createTRPCRouter({
-    getOne: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ input, ctx }) => {
+    getOne: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
         const [agent] = await db.select({
             meetingCount: sql<number>`5`,
             ...getTableColumns(agents)
         }).from(agents).where(eq(agents.id, input.id));
         return agent;
     }),
-    getMany: protectedProcedure.query(async ({ ctx }) => {
+    getMany: protectedProcedure.input(agentsGetManySchema).query(async ({ ctx, input }) => {
+
         const agentsData = await db.select({
             meetingCount: sql<number>`5`,
             ...getTableColumns(agents)
-        }).from(agents).where(eq(agents.userId, ctx.auth.user.id));
-        return agentsData;
+        }).from(agents).where(and(
+            eq(agents.userId, ctx.auth.user.id),
+            ilike(agents.name, `%${input.search}%`)
+        )).limit(input.pageSize)
+            .offset((input.page - 1) * input.pageSize)
+            .orderBy(desc(agents.createdAt), desc(agents.id));
+
+
+        const [result] = await db.select({ count: count() }).from(agents).where(and(
+            eq(agents.userId, ctx.auth.user.id),
+            ilike(agents.name, `%${input.search}%`)
+        ));
+
+        const totalPages = Math.ceil(result.count / input.pageSize);
+
+
+        return { items: agentsData, count: result.count, totalPages };
     }),
     create: protectedProcedure.input(agentsInsertSchema).mutation(async ({ ctx, input }) => {
         const { name, instructions } = input;

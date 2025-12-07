@@ -1,156 +1,105 @@
 "use client"
 
+import * as React from "react"
 import {
     ColumnDef,
     ColumnFiltersState,
-    SortingState,
     flexRender,
     getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
+    SortingState,
     useReactTable,
+    VisibilityState,
 } from "@tanstack/react-table"
-
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Search } from "lucide-react"
-import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    onRowClick?: (row: TData) => void
 }
 
-export function AgentsDataTable<TData, TValue>({
+export function DataTable<TData, TValue>({
     columns,
     data,
+    onRowClick
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+    const [sorting, setSorting] = React.useState<SortingState>([])
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+    const [rowSelection, setRowSelection] = React.useState({})
 
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
         state: {
             sorting,
             columnFilters,
+            columnVisibility,
+            rowSelection,
         },
     })
 
     return (
-        <Card className="shadow-lg mx-2 sm:mx-6">
-            <CardHeader>
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <CardTitle className="text-xl sm:text-2xl font-bold">Agents</CardTitle>
-                        <CardDescription className="mt-1.5">
-                            Manage your AI agents and view their activity
-                        </CardDescription>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="relative flex-1 md:flex-initial">
-                            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                            <Input
-                                placeholder="Search agents..."
-                                value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-                                onChange={(event) =>
-                                    table.getColumn("name")?.setFilterValue(event.target.value)
-                                }
-                                className="pl-9 w-full md:w-[250px]"
-                            />
+        <div className="w-full">
+            {table.getRowModel().rows?.length ? (
+                <div className="grid gap-4 md:gap-5">
+                    {table.getRowModel().rows.map((row, index) => (
+                        <div
+                            key={row.id}
+                            onClick={() => onRowClick?.(row.original)}
+                            className="group relative overflow-hidden rounded-2xl border border-border/50 bg-linear-to-br from-background via-background to-muted/20 p-5 md:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30 hover:-translate-y-0.5 cursor-pointer"
+                            style={{
+                                animationDelay: `${index * 50}ms`,
+                                animation: 'fadeInUp 0.5s ease-out forwards',
+                            }}
+                        >
+                            {/* Gradient overlay on hover */}
+                            <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                            {/* Content Grid */}
+                            <div className="relative grid md:grid-cols-[1fr_auto] gap-4 md:gap-6 items-start md:items-center">
+                                {row.getVisibleCells().map((cell) => (
+                                    <div key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Subtle corner accent */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-primary/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
                         </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center py-16 md:py-24 rounded-2xl border border-dashed border-border/50 bg-muted/10">
+                    <div className="text-center space-y-2">
+                        <p className="text-muted-foreground text-sm md:text-base">No agents found</p>
+                        <p className="text-xs text-muted-foreground/60">Create your first agent to get started</p>
                     </div>
                 </div>
-            </CardHeader>
-            <CardContent>
-                <div className="overflow-x-auto rounded-lg border bg-card">
-                    <Table>
-                        <TableHeader>
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id} className="hover:bg-transparent border-b bg-muted/50">
-                                    {headerGroup.headers.map((header) => {
-                                        return (
-                                            <TableHead key={header.id} className="font-semibold">
-                                                {header.isPlaceholder
-                                                    ? null
-                                                    : flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
-                                            </TableHead>
-                                        )
-                                    })}
-                                </TableRow>
-                            ))}
-                        </TableHeader>
-                        <TableBody>
-                            {table.getRowModel().rows?.length ? (
-                                table.getRowModel().rows.map((row) => (
-                                    <TableRow
-                                        key={row.id}
-                                        data-state={row.getIsSelected() && "selected"}
-                                        className="hover:bg-muted/30 transition-colors"
-                                    >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id} className="py-4">
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={columns.length} className="h-32 text-center">
-                                        <div className="flex flex-col items-center justify-center text-muted-foreground">
-                                            <p className="text-lg font-medium">No agents found</p>
-                                            <p className="text-sm">Try adjusting your search or create a new agent</p>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mt-4">
-                    <div className="text-sm text-muted-foreground text-center sm:text-left">
-                        Showing {table.getFilteredRowModel().rows.length} of {data.length} agent(s)
-                    </div>
-                    <div className="flex items-center justify-center gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => table.previousPage()}
-                            disabled={!table.getCanPreviousPage()}
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => table.nextPage()}
-                            disabled={!table.getCanNextPage()}
-                        >
-                            Next
-                        </Button>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
+            )}
+
+            <style jsx global>{`
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `}</style>
+        </div>
     )
 }

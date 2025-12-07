@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { DashboardUserButton } from "./dashboard-user-button";
 import { cn } from "@/lib/utils";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 
 const firstSection = [

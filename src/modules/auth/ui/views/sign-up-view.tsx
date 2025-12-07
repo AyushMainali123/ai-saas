@@ -9,7 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { useState } from "react";
-import { signIn, signUp } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import SocialLogins from "../social-logins/social-logins";
@@ -59,23 +59,6 @@ export default function SignUpView() {
             }
         })
     };
-
-    function handleSocialLogin(provider: "google" | "github") {
-        signIn.social({
-            provider,
-            callbackURL: "/",
-        }, {
-            onError: (error) => {
-                setError(error.error.message);
-            },
-            onRequest: () => {
-                setPending(true);
-            },
-            onResponse: () => {
-                setPending(false);
-            }
-        })
-    }
 
     return (
         <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
