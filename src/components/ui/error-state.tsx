@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { Button } from "./button";
 
 
-interface IErrorStateProps {
+export interface IErrorStateProps {
     error: Error & { digest?: string }
     resetErrorBoundary: () => void
 }

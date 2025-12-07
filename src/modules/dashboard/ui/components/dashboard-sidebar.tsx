@@ -68,7 +68,7 @@ export const DashboardSidebar = () => {
                         <SidebarMenu>
                             {firstSection.map((item) => (
                                 <SidebarMenuItem key={item.label}>
-                                    <SidebarMenuButton asChild tooltip={item.label} className={cn(pathname === item.href ? "hover:bg-sidebar-primary hover:text-sidebar-primary-foreground  bg-sidebar-primary text-sidebar-primary-foreground" : "")}>
+                                    <SidebarMenuButton asChild tooltip={item.label} className={cn(pathname.includes(item.href) ? "hover:bg-sidebar-primary hover:text-sidebar-primary-foreground  bg-sidebar-primary text-sidebar-primary-foreground" : "")}>
                                         <Link href={item.href}>
                                             <item.icon />
                                             <span>{item.label}</span>
