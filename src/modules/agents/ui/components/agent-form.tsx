@@ -67,7 +67,7 @@ export const AgentForm = ({ onSuccess, onCancel, initialValues }: IAgentFormProp
     }
 
     return (
-        <div className="w-full max-w-2xl mx-auto px-4">
+        <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
             <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mx-auto pb-4">
                 <div className="flex justify-center mb-1.5 md:mb-6">
                     <GeneratedAvatar seed={form.watch("name")} collection="botttsNeutral" className="size-16 md:size-32 border-4 border-muted rounded-full" />

@@ -6,6 +6,9 @@ import { Suspense } from "react";
 import { AgentsListHeader } from "@/modules/agents/ui/components/agents-list-header";
 import { loadSearchParams } from "@/modules/agents/params";
 import { SearchParams } from "nuqs/server";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 // Force dynamic rendering to prevent build-time fetch errors
 export const dynamic = 'force-dynamic';

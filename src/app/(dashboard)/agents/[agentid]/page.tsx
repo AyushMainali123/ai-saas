@@ -9,6 +9,7 @@ interface IProps {
 }
 
 export default async function SingleAgentPage({ params }: IProps) {
+
     const { agentid } = await params;
     const queryclient = getQueryClient();
     await queryclient.prefetchQuery(trpc.agents.getOne.queryOptions({ id: agentid }));
