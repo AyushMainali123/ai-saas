@@ -3,12 +3,12 @@
 import { LoadingState } from "@/components/ui/loading-state";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { DataTable } from "../components/data-table";
 import { agentColumns } from "../components/columns";
 import { useAgentsFilter } from "../../hooks/use-agents-filter";
-import { DataPagination } from "../components/data-pagination";
 import { useRouter } from "next/navigation";
 import { ErrorState, IErrorStateProps } from "@/components/ui/error-state";
+import { DataTable } from "@/components/ui/data-table";
+import { DataPagination } from "@/components/ui/data-pagination";
 
 export default function AgentsView() {
     const trpc = useTRPC();
