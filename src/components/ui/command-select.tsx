@@ -3,18 +3,21 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Button } from './button';
 import { ChevronsUpDownIcon, Loader2Icon, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { wait } from '@/lib/wait';
 
 
 interface IProps {
     options: Array<{ label: string; value: string; children: ReactNode }>;
     onSelect: (value: string) => void;
-    onSearch: (value: string) => void;
+    onSearch?: (value: string) => void;
     value: string;
     placeholder?: string;
     isLoading?: boolean;
     isSearchable?: boolean;
     className?: string;
 }
+
+const WAIT_MS = 200;
 
 export function CommandSelect({
     options,
@@ -28,6 +31,12 @@ export function CommandSelect({
 }: IProps) {
     const [open, setOpen] = useState(false);
     const selectedOption = options.find((option) => option.value === value);
+
+    function handleOpenChange(open: boolean) {
+        setOpen(open);
+        wait(WAIT_MS).then(() => onSearch?.(""));
+    }
+
     return (
         <>
             <Button variant="outline" type="button" className={cn(
@@ -41,7 +50,7 @@ export function CommandSelect({
                 <ChevronsUpDownIcon />
             </Button>
 
-            <ResponsiveCommandDialog shouldFilter={!onSearch} open={open} onOpenChange={setOpen}>
+            <ResponsiveCommandDialog shouldFilter={!onSearch} open={open} onOpenChange={handleOpenChange}>
                 {isSearchable && <CommandInput placeholder={placeholder} onValueChange={onSearch} />}
                 {isLoading && (
                     <div className="flex items-center justify-center py-4">

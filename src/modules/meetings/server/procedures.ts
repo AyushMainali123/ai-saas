@@ -32,12 +32,13 @@ export const meetingsRouter = createTRPCRouter({
             .innerJoin(agents, eq(meetings.agentId, agents.id))
             .where(and(
                 eq(meetings.userId, ctx.auth.user.id),
-                ilike(meetings.name, `%${input.search}%`)
+                input.search ? ilike(meetings.name, `%${input.search}%`) : undefined,
+                input.status ? eq(meetings.status, input.status) : undefined,
+                input.agentId ? eq(meetings.agentId, input.agentId) : undefined,
             ))
             .limit(input.pageSize)
             .offset((input.page - 1) * input.pageSize)
             .orderBy(desc(meetings.createdAt), desc(meetings.id));
-
 
         const [result] = await db.select({ count: count() }).from(meetings)
             .innerJoin(agents, eq(meetings.agentId, agents.id))

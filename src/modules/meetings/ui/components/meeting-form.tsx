@@ -12,6 +12,7 @@ import { TMeetingGetOne } from "../../types";
 import { CommandSelect } from "@/components/ui/command-select";
 import { useState } from "react";
 import { GeneratedAvatar } from "@/components/ui/generated-avatar";
+import { MAX_PAGE_SIZE } from "@/app/constants";
 
 interface IMeetingFormProps {
     onSuccess?: (id: string) => void;
@@ -20,15 +21,13 @@ interface IMeetingFormProps {
 }
 
 
-const AGENTS_PER_PAGE = 20;
-
 export const MeetingForm = ({ onSuccess, onCancel, initialValues }: IMeetingFormProps) => {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
 
     const [agentSearch, setAgentSearch] = useState("");
 
-    const { data: agents, isLoading: areAgentsLoading } = useQuery(trpc.agents.getMany.queryOptions({ pageSize: AGENTS_PER_PAGE, search: agentSearch }))
+    const { data: agents, isLoading: areAgentsLoading } = useQuery(trpc.agents.getMany.queryOptions({ pageSize: MAX_PAGE_SIZE, search: agentSearch }))
 
     const createMeeting = useMutation(trpc.meetings.create.mutationOptions({
         onSuccess: async (data) => {

@@ -28,12 +28,13 @@ export default function MeetingsView() {
                     description: "No meetings yet. Create one with AI and see how effortless collaboration can be."
                 }}
             />
-
-            <DataPagination
-                page={filter.page}
-                totalPages={meetings.totalPages}
-                onPageChange={(page) => setFilter({ ...filter, page })}
-            />
+            <div className="mt-4">
+                <DataPagination
+                    page={filter.page}
+                    totalPages={meetings.totalPages}
+                    onPageChange={(page) => setFilter({ ...filter, page })}
+                />
+            </div>
         </div>
     )
 }

@@ -1,10 +1,13 @@
 import { DEFAULT_PAGE_SIZE, INITIAL_PAGE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/app/constants";
 import { z } from "zod";
+import { TMeetingStatus } from "./types";
 
 export const meetingsGetManySchema = z.object({
-    search: z.string().nullish().default(""),
+    search: z.string().nullish(),
     pageSize: z.number().min(MIN_PAGE_SIZE).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
     page: z.number().default(INITIAL_PAGE),
+    agentId: z.string().nullish(),
+    status: z.enum(TMeetingStatus).nullish()
 });
 
 export const meetingsInsertSchema = z.object({
@@ -14,4 +17,4 @@ export const meetingsInsertSchema = z.object({
 
 export const meetingsUpdateSchema = meetingsInsertSchema.extend({
     id: z.string().min(1, { message: "Id is required" }),
-})
+});
