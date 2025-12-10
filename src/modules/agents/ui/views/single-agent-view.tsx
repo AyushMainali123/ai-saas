@@ -13,6 +13,12 @@ import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useState } from "react";
 import { UpdateAgentDialog } from "../components/update-agent-dialog";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 
 interface ISingleAgentViewProps {
     agentId: string;
@@ -67,36 +73,30 @@ export default function SingleAgentView({ agentId }: ISingleAgentViewProps) {
                     onDelete={handleRemove}
                 />
 
-                <div className="max-w-sm lg:max-w-3xl mx-auto space-y-6">
-                    <div className="rounded-2xl border border-border/70 bg-background/50 backdrop-blur-md p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
-                        <div className="flex items-center gap-4">
-                            <div className="relative shrink-0">
-                                <GeneratedAvatar collection="botttsNeutral" seed={agent.name} className="h-16 w-16 ring-4 ring-primary/20 ring-offset-4 ring-offset-background/50 rounded-full bg-linear-to-br from-primary/10 to-secondary/10" />
-                            </div>
-
-                            <div className="space-y-1.5 min-w-0">
-                                <h1 className="text-2xl font-extrabold tracking-tight truncate text-foreground/90">{agent.name}</h1>
-                                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                                    <VideoIcon className="h-4 w-4 text-primary" />
-                                    <span className="text-xs uppercase tracking-wider">{agent.meetingCount} {agent.meetingCount === 1 ? 'MEETING' : 'MEETINGS'}</span>
+                <div className="max-w-xl mx-auto">
+                    <Card className="shadow-md">
+                        <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
+                            <GeneratedAvatar collection="botttsNeutral" seed={agent.name} className="h-16 w-16 bg-muted/50 border-2 border-border" />
+                            <div className="flex flex-col gap-1">
+                                <CardTitle className="text-2xl font-bold">{agent.name}</CardTitle>
+                                <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                    <VideoIcon className="h-3.5 w-3.5" />
+                                    <span className="font-medium">{agent.meetingCount} {agent.meetingCount === 1 ? 'Meeting' : 'Meetings'}</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-
-                    {/* Instructions Section */}
-                    <div className="space-y-3">
-                        <h2 className="flex items-center gap-2 text-sm font-bold tracking-wider uppercase text-muted-foreground">
-                            <ClipboardList className="h-4 w-4 text-primary" />
-                            Instructions
-                        </h2>
-
-                        {/* Instruction Content Block */}
-                        <div className="rounded-xl bg-card border border-border p-4 shadow-sm  hover:shadow-lg">
-                            <p className="text-sm leading-relaxed text-foreground/80">{agent.instructions}</p>
-                        </div>
-                    </div>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-2 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+                                    <ClipboardList className="h-4 w-4" />
+                                    Instructions
+                                </div>
+                                <div className="rounded-lg bg-muted/40 p-4 text-sm leading-relaxed text-foreground border border-border/50">
+                                    {agent.instructions}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </>

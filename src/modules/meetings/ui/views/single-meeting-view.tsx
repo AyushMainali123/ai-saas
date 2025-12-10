@@ -11,6 +11,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { UpdateMeetingDialog } from "../components/update-meeting-dialog";
 import { useConfirm } from "@/hooks/use-confirm";
+import { UpcomingState } from "../components/upcoming-state";
+import { ActiveState } from "../components/active-state";
+import { CancelledState } from "../components/cancelled-state";
+import { ProcessingState } from "../components/processing-state";
 
 export default function MeetingIdView({ meetingid }: { meetingid: string }) {
     const trpc = useTRPC();
@@ -54,8 +58,12 @@ export default function MeetingIdView({ meetingid }: { meetingid: string }) {
                     onDelete={handleRemove}
                 />
 
-                <div className="max-w-sm lg:max-w-3xl mx-auto space-y-6">
-                    Hello World
+                <div>
+                    {meeting.status === "upcoming" && <UpcomingState meetingId={meeting.id} onCancelMeeting={() => { }} isCancelling={false} />}
+                    {meeting.status === "processing" && <ProcessingState />}
+                    {meeting.status === "completed" && <div>Completed</div>}
+                    {meeting.status === "cancelled" && <CancelledState />}
+                    {meeting.status === "active" && <ActiveState meetingId={meeting.id} />}
                 </div>
 
 
