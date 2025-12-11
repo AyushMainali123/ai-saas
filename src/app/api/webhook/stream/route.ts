@@ -16,8 +16,8 @@ export const POST = async (req: Request) => {
     const apiKey = req.headers.get("x-api-key");
     const openAiApiKey = process.env.OPENAI_API_KEY;
 
-    if (!signature || !apiKey) return NextResponse.json({ error: "Missing signature" }, { status: 400 })
-    if (!openAiApiKey) return NextResponse.json({ error: "Missing openAiApiKey" }, { status: 400 })
+    if (!signature || !apiKey) return NextResponse.json({ error: "Missing signature or API key" }, { status: 400 })
+    if (!openAiApiKey) return NextResponse.json({ error: "Missing openAI API key" }, { status: 400 })
 
     const data = await req.text();
     const isValid = streamClient.verifyWebhook(data, signature);
@@ -63,19 +63,25 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ error: "Agent not found" }, { status: 400 })
         }
 
-        const call = streamClient.video.call("default", customData.meetingId);
-        const realtimeClient = await streamClient.video.connectOpenAi({
-            call,
-            openAiApiKey,
-            agentUserId: existingAgent.id
-        });
 
-        realtimeClient.updateSession({
-            instructions: `${existingAgent.instructions}. Say "Hello, I am ready" immediately when you join.`,
-            voice: "alloy",
-            modalities: ["text", "audio"],
-            turn_detection: { type: "server_vad" },
-        });
+        try {
+
+            const call = streamClient.video.call("default", customData.meetingId);
+            const realtimeClient = await streamClient.video.connectOpenAi({
+                call,
+                openAiApiKey,
+                agentUserId: existingAgent.id
+            });
+
+            realtimeClient.updateSession({
+                instructions: existingAgent.instructions,
+                modalities: ["text", "audio"],
+                turn_detection: { type: "server_vad" },
+            });
+        } catch (error) {
+            return NextResponse.json({ error: "Failed to initialize AI session" }, { status: 500 });
+        }
+
     } else if (eventType === "call.session_participant_left") {
         const meetingId = webhookData.call_cid.split(":")[1]; // meetingId is the second part of the call_cid
 
@@ -83,8 +89,16 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ error: "Missing meetingId" }, { status: 400 })
         }
 
-        const call = streamClient.video.call("default", meetingId);
-        await call.end();
+        try {
+            const call = streamClient.video.call("default", meetingId);
+            await call.end();
+
+            await db.update(meetings)
+                .set({ status: TMeetingStatus.Processing, endedAt: new Date() })
+                .where(eq(meetings.id, meetingId));
+        } catch (error) {
+            return NextResponse.json({ error: "Failed to end call" }, { status: 500 });
+        }
     }
 
 
