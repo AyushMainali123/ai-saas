@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { agents, meetings } from "@/db/schema";
+import { inngest } from "@/inngest/client";
 import { streamClient } from "@/lib/stream-video";
 import { TMeetingStatus } from "@/modules/meetings/types";
 import { WebhookEvent } from "@stream-io/node-sdk";
@@ -40,7 +41,7 @@ export const POST = async (req: Request) => {
         }
 
         const [existingMeeting] = await db.update(meetings)
-            .set({ status: TMeetingStatus.Active })
+            .set({ status: TMeetingStatus.Active, startedAt: new Date() })
             .where(and(
                 eq(meetings.id, customData.meetingId),
                 eq(meetings.status, TMeetingStatus.Upcoming)
@@ -93,14 +94,64 @@ export const POST = async (req: Request) => {
             const call = streamClient.video.call("default", meetingId);
             await call.end();
 
-            await db.update(meetings)
-                .set({ status: TMeetingStatus.Processing, endedAt: new Date() })
-                .where(eq(meetings.id, meetingId));
         } catch (error) {
             return NextResponse.json({ error: "Failed to end call" }, { status: 500 });
         }
-    }
+    } else if (eventType === "call.session_ended") {
+        const customData = webhookData.call.custom as TCustomData;
+        const meetingId = customData.meetingId;
 
+        if (!meetingId) {
+            return NextResponse.json({ error: "Missing meetingId" }, { status: 400 })
+        }
+
+        try {
+            await db.update(meetings)
+                .set({ status: TMeetingStatus.Processing, endedAt: new Date() })
+                .where(and(eq(meetings.id, meetingId), eq(meetings.status, TMeetingStatus.Active)));
+
+        } catch (error) {
+            return NextResponse.json({ error: "Failed to update meeting status" }, { status: 500 });
+        }
+    } else if (eventType === "call.transcription_ready") {
+        const meetingId = webhookData.call_cid.split(":")[1]; // meetingId is the second part of the call_cid
+
+        try {
+            const [updatedMeeting] = await db.update(meetings)
+                .set({ transcriptUrl: webhookData.call_transcription.url })
+                .where(eq(meetings.id, meetingId)).returning();
+
+            if (!updatedMeeting) {
+                return NextResponse.json({ error: "Meeting not found" }, { status: 400 });
+            }
+
+        } catch (error) {
+            return NextResponse.json({ error: "Failed to update meeting transcript URL" }, { status: 500 });
+        }
+
+        await inngest.send({
+            name: "meetings/processing",
+            data: {
+                meetingId,
+                transcriptUrl: webhookData.call_transcription.url
+            }
+        });
+    } else if (eventType === "call.recording_ready") {
+        const meetingId = webhookData.call_cid.split(":")[1]; // meetingId is the second part of the call_cid
+
+        try {
+            const [updatedMeeting] = await db.update(meetings)
+                .set({ recordingUrl: webhookData.call_recording.url })
+                .where(eq(meetings.id, meetingId)).returning();
+
+            if (!updatedMeeting) {
+                return NextResponse.json({ error: "Meeting not found" }, { status: 400 });
+            }
+
+        } catch (error) {
+            return NextResponse.json({ error: "Failed to update meeting recording URL" }, { status: 500 });
+        }
+    }
 
 
     return NextResponse.json({ ok: true }, { status: 200 })
