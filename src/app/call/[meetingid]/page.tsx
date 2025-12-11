@@ -20,7 +20,7 @@ export default async function CallPage({ params }: ICallPage) {
     const { meetingid } = await params;
 
     const queryClient = getQueryClient();
-    queryClient.prefetchQuery(trpc.meetings.getOne.queryOptions({ id: meetingid }));
+    await queryClient.prefetchQuery(trpc.meetings.getOne.queryOptions({ id: meetingid }));
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <CallView meetingid={meetingid} />

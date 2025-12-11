@@ -11,7 +11,7 @@ interface IMeetingPage {
 export default async function MeetingPage({ params }: IMeetingPage) {
     const { meetingid } = await params;
     const queryClient = getQueryClient();
-    queryClient.prefetchQuery(trpc.meetings.getOne.queryOptions({ id: meetingid }));
+    await queryClient.prefetchQuery(trpc.meetings.getOne.queryOptions({ id: meetingid }));
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <Suspense fallback={<MeetingIDViewLoadingState />}>

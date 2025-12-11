@@ -7,11 +7,10 @@ import {
     StreamCall,
     StreamVideo,
     StreamVideoClient,
-    User,
 } from '@stream-io/video-react-sdk'
 import { useMutation } from '@tanstack/react-query';
 import { Loader2Icon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CallUI } from './call-ui';
 
 
@@ -24,6 +23,11 @@ interface Props {
 }
 
 
+const apiKey = process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY;
+if (!apiKey) {
+    throw new Error("NEXT_PUBLIC_STREAM_VIDEO_API_KEY is not defined");
+}
+
 export const CallConnect = ({ meetingId, meetingName, userId, userName, userImage }: Props) => {
     const trpc = useTRPC();
     const { mutateAsync: generateToken } = useMutation(trpc.meetings.generateToken.mutationOptions({}));
@@ -32,7 +36,7 @@ export const CallConnect = ({ meetingId, meetingName, userId, userName, userImag
 
     useEffect(() => {
         const _client = new StreamVideoClient({
-            apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
+            apiKey: apiKey,
             user: {
                 id: userId,
                 name: userName,

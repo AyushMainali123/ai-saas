@@ -15,7 +15,7 @@ export default async function MeetingsPage({ searchParams }: IMeetingsPage) {
 
     const params = await loadSearchParams(searchParams);
     const queryclient = getQueryClient();
-    queryclient.prefetchQuery(trpc.meetings.getMany.queryOptions({
+    await queryclient.prefetchQuery(trpc.meetings.getMany.queryOptions({
         ...params
     }));
 
