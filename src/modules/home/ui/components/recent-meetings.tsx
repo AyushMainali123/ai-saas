@@ -37,7 +37,7 @@ export function RecentMeetings() {
                             Get started by creating your first meeting summary.
                         </p>
                         <Button className="mt-4" asChild>
-                            <Link href="/meetings">Create New Meeting</Link>
+                            <Link href="/meetings/new">Create New Meeting</Link>
                         </Button>
                     </div>
                 ) : (
