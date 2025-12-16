@@ -13,7 +13,7 @@ export default function SocialLogins({ setError, setPending }: ISocialLoginsProp
     function handleSocialLogin(provider: "google" | "github") {
         signIn.social({
             provider,
-            callbackURL: "/",
+            callbackURL: "/dashboard",
         }, {
             onError: (error) => {
                 setError(error.error.message);
