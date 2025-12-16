@@ -6,6 +6,15 @@ import { TriangleAlert, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useSearchParams } from "next/navigation";
 
+function errorMapper(error: string) {
+    switch (error) {
+        case "invalid_token":
+            return "Invalid verification token";
+        default:
+            return "We encountered an unexpected issue verifying your email.";
+    }
+}
+
 export function EmailVerifiedView() {
     const searchParams = useSearchParams();
     const error = searchParams.get("error");
@@ -29,14 +38,14 @@ export function EmailVerifiedView() {
                     <Alert variant="destructive">
                         <TriangleAlert />
                         <AlertTitle>Verification Error</AlertTitle>
-                        <AlertDescription>{error}</AlertDescription>
+                        <AlertDescription>{errorMapper(error)}</AlertDescription>
                     </Alert>
                 ) : (
                     <Alert className="border-green-500 text-green-700 dark:text-green-400">
                         <CheckCircle2 className="text-green-500" />
                         <AlertTitle>Success!</AlertTitle>
                         <AlertDescription>
-                            You can now sign in to your account and start using AI SAAS.
+                            You can now sign in to your account and start using {process.env.NEXT_PUBLIC_APPLICATION_NAME}.
                         </AlertDescription>
                     </Alert>
                 )}

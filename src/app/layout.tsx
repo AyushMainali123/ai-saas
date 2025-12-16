@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI SAAS",
-  description: "AI SAAS App",
+  title: process.env.NEXT_PUBLIC_APPLICATION_NAME,
+  description: process.env.NEXT_PUBLIC_APPLICATION_NAME + " App",
 };
 
 export default function RootLayout({

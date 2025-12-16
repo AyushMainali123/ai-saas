@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/db";
@@ -5,6 +7,15 @@ import * as schema from "@/db/schema";
 import { polar, checkout, portal, usage } from "@polar-sh/better-auth";
 import { polarClient } from "./polar";
 import { resend } from "./resend";
+
+
+if (!process.env.RESEND_SENDER_EMAIL_ADDRESS) {
+    throw new Error("RESEND_SENDER_EMAIL_ADDRESS is not defined");
+}
+
+if (!process.env.NEXT_PUBLIC_APPLICATION_NAME) {
+    throw new Error("NEXT_PUBLIC_APPLICATION_NAME is not defined");
+}
 
 export const auth = betterAuth({
     plugins: [
@@ -31,13 +42,14 @@ export const auth = betterAuth({
         sendVerificationEmail: async ({ user, url }) => {
             const verificationUrl = new URL(url);
             verificationUrl.searchParams.set("callbackURL", "/auth/email-verified");
-            await resend.emails.send({
-                from: "AI SAAS <aisaas@mainaliayush.com.np>",
-                to: user.email,
-                subject: "Verify your email address",
-                html: `
+            try {
+                await resend.emails.send({
+                    from: `${process.env.NEXT_PUBLIC_APPLICATION_NAME} <${process.env.RESEND_SENDER_EMAIL_ADDRESS}>`,
+                    to: user.email,
+                    subject: "Verify your email address",
+                    html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                        <h2>Welcome to AI SAAS!</h2>
+                        <h2>Welcome to ${process.env.NEXT_PUBLIC_APPLICATION_NAME}!</h2>
                         <p>Hi ${user.name || 'there'},</p>
                         <p>Thank you for signing up. Please verify your email address by clicking the button below:</p>
                         <a href="${verificationUrl.toString()}" style="display: inline-block; padding: 12px 24px; background-color: #0070f3; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0;">Verify Email</a>
@@ -46,7 +58,11 @@ export const auth = betterAuth({
                         <p style="color: #999; font-size: 12px; margin-top: 30px;">If you didn't create an account, you can safely ignore this email.</p>
                     </div>
                 `,
-            });
+                });
+            } catch (error) {
+                console.error("Failed to send verification email:", error);
+                throw error;
+            }
         },
         sendOnSignIn: true,
         sendOnSignUp: true,
@@ -56,11 +72,12 @@ export const auth = betterAuth({
         enabled: true,
         requireEmailVerification: true,
         sendResetPassword: async ({ user, url }) => {
-            await resend.emails.send({
-                from: "AI SAAS <aisaas@mainaliayush.com.np>",
-                to: user.email,
-                subject: "Reset your password",
-                html: `
+            try {
+                await resend.emails.send({
+                    from: `${process.env.NEXT_PUBLIC_APPLICATION_NAME} <${process.env.RESEND_SENDER_EMAIL_ADDRESS}>`,
+                    to: user.email,
+                    subject: "Reset your password",
+                    html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                         <h2>Password Reset Request</h2>
                         <p>Hi ${user.name || 'there'},</p>
@@ -71,7 +88,11 @@ export const auth = betterAuth({
                         <p style="color: #999; font-size: 12px; margin-top: 30px;">If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
                     </div>
                 `,
-            });
+                });
+            } catch (error) {
+                console.error("Failed to send reset password email:", error);
+                throw error;
+            }
         },
     },
 
