@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
+import Link from "next/link"
 
 interface IAuthLayoutPageProps {
     children: React.ReactNode
@@ -18,9 +19,9 @@ export default function AuthLayoutPage({ children }: IAuthLayoutPageProps) {
                             </div>
                         </CardContent>
                     </Card>
-                    <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-                        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-                        and <a href="#">Privacy Policy</a>.
+                    <div className="text-balance text-center text-xs text-muted-foreground">
+                        By clicking continue, you agree to our <Link href="#" className="underline underline-offset-4 hover:text-primary">Terms of Service</Link>{" "}
+                        and <Link href="#" className="underline underline-offset-4 hover:text-primary">Privacy Policy</Link>.
                     </div>
                 </div>
             </div>
