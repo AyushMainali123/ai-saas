@@ -26,7 +26,7 @@ export default function AgentsView() {
                     title: "Create your first agent",
                     description: "Build your workforce of intelligent AI agents to automate your tasks."
                 }}
-                columns={agentColumns} data={agents.items} onRowClick={(data) => router.push(`/agents/${data.id}`)} />
+                columns={agentColumns} data={agents.items} onRowClick={(data) => router.push(`/dashboard/agents/${data.id}`)} />
             <div className="mt-4">
                 <DataPagination
                     page={filter.page}

@@ -34,7 +34,7 @@ export function CancelledState() {
                 </CardContent>
                 <CardFooter>
                     <Button variant="outline" className="w-full" asChild>
-                        <Link href="/meetings">
+                        <Link href="/dashboard/meetings">
                             Back to Meetings
                         </Link>
                     </Button>

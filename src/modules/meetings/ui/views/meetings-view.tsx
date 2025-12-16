@@ -22,7 +22,7 @@ export default function MeetingsView() {
             <DataTable
                 columns={meetingColumns}
                 data={meetings.items}
-                onRowClick={(row) => router.push(`/meetings/${row.id}`)}
+                onRowClick={(row) => router.push(`/dashboard/meetings/${row.id}`)}
                 emptyState={{
                     title: "Create your first meeting",
                     description: "No meetings yet. Create one with AI and see how effortless collaboration can be."

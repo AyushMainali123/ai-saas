@@ -77,7 +77,7 @@ export function DashboardCommand({ open, setOpen }: IDashboardCommandProps) {
                                 <CommandItem
                                     key={agent.id}
                                     value={agent.name + agent.id}
-                                    onSelect={() => handleSelect(`/agents/${agent.id}`)}
+                                    onSelect={() => handleSelect(`/dashboard/agents/${agent.id}`)}
                                     className="group flex items-center justify-between rounded-lg px-3 py-2 cursor-pointer transition-colors"
                                 >
                                     <div className="flex items-center gap-3">
@@ -105,7 +105,7 @@ export function DashboardCommand({ open, setOpen }: IDashboardCommandProps) {
                                 <CommandItem
                                     key={meeting.id}
                                     value={meeting.name + meeting.id}
-                                    onSelect={() => handleSelect(`/meetings/${meeting.id}`)}
+                                    onSelect={() => handleSelect(`/dashboard/meetings/${meeting.id}`)}
                                     className="group flex items-center justify-between rounded-lg px-3 py-2 cursor-pointer transition-colors"
                                 >
                                     <div className="flex items-center gap-3">

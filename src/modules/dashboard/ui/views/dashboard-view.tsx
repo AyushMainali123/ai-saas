@@ -2,7 +2,7 @@
 
 import { ErrorState, IErrorStateProps } from "@/components/ui/error-state";
 import { LoadingState } from "@/components/ui/loading-state";
-import { StatsGrid } from "@/modules/home/ui/components/stats-grid";
+import { StatsGrid } from "@/modules/dashboard/ui/components/stats-grid";
 import { RecentMeetings } from "../components/recent-meetings";
 import { QuickAction } from "../components/quick-action";
 import { DidYouKnow } from "../components/did-you-know";

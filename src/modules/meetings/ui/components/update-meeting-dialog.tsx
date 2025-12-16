@@ -16,7 +16,7 @@ export function UpdateMeetingDialog({ open, onOpenChange, initialValues }: IUpda
     const router = useRouter();
 
     function handleSuccess(id: string) {
-        router.push(`/meetings/${id}`);
+        router.push(`/dashboard/meetings/${id}`);
         onOpenChange(false);
     }
     return (

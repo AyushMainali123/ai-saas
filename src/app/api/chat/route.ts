@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         const transcripts = await fetch(meeting.transcriptUrl!);
         transcriptText = await transcripts.text();
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return new Response("Error fetching transcript", { status: 404 });
     }
 

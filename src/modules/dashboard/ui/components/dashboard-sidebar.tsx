@@ -25,25 +25,25 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
+import Image from "next/image";
 
 
 const mainRoutes = [
     {
         icon: LayoutDashboardIcon,
         label: "Overview",
-        href: "/",
+        href: "/dashboard",
         matchExact: true,
     },
     {
         icon: VideoIcon,
         label: "Meetings",
-        href: "/meetings",
+        href: "/dashboard/meetings",
     },
     {
         icon: BotIcon,
         label: "Agents",
-        href: "/agents",
+        href: "/dashboard/agents",
     }
 ]
 
@@ -51,7 +51,7 @@ const settingsRoutes = [
     {
         icon: SettingsIcon,
         label: "Settings",
-        href: "/settings",
+        href: "/dashboard/settings",
     }
 ]
 
@@ -74,9 +74,7 @@ export const DashboardSidebar = () => {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild className="md:h-12 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
                             <Link href="/">
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-                                    <BotIcon className="size-5" />
-                                </div>
+                                <Image src="/logo.svg" alt="Logo" width={24} height={24} />
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-bold text-lg tracking-tight">{process.env.NEXT_PUBLIC_APPLICATION_NAME}</span>
                                     <span className="truncate text-xs text-muted-foreground">{currentPlan}</span>

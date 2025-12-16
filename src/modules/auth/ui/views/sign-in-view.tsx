@@ -39,7 +39,7 @@ export default function SignInView() {
         signIn.email({
             email: values.email,
             password: values.password,
-            callbackURL: "/"
+            callbackURL: "/dashboard"
         }, {
             onRequest: () => {
                 setPending(true);

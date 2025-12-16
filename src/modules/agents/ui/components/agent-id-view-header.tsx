@@ -20,13 +20,13 @@ export function AgentIdViewHeader({ agentId, agentName, onEdit, onDelete }: ISin
                 <BreadcrumbList className="sm:gap-1.5">
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href="/agents" className="text-muted-foreground text-lg font-medium">Agents</Link>
+                            <Link href="/dashboard/agents" className="text-muted-foreground text-lg font-medium">Agents</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator className="[&>svg]:size-5" />
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href={`/agents/${agentId}`} className="text-foreground text-lg font-semibold">{agentName}</Link>
+                            <Link href={`/dashboard/agents/${agentId}`} className="text-foreground text-lg font-semibold">{agentName}</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>

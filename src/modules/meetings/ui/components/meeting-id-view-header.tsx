@@ -20,13 +20,13 @@ export function MeetingIdViewHeader({ meetingId, meetingName, onEdit, onDelete }
                 <BreadcrumbList className="sm:gap-1.5">
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href="/meetings" className="text-muted-foreground text-lg font-medium">Meetings</Link>
+                            <Link href="/dashboard/meetings" className="text-muted-foreground text-lg font-medium">Meetings</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator className="[&>svg]:size-5" />
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href={`/meetings/${meetingId}`} className="text-foreground text-lg font-semibold">{meetingName}</Link>
+                            <Link href={`/dashboard/meetings/${meetingId}`} className="text-foreground text-lg font-semibold">{meetingName}</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>

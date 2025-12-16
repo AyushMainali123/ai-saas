@@ -21,7 +21,7 @@ export const CallEnded = () => {
                 </CardHeader>
                 <CardFooter className="flex justify-center pb-8">
                     <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                        <Link href="/meetings" className="flex items-center gap-2 justify-center">
+                        <Link href="/dashboard/meetings" className="flex items-center gap-2 justify-center">
                             <ArrowLeft className="w-4 h-4" />
                             Back to Meetings
                         </Link>
