@@ -24,7 +24,7 @@ export function IntegrationTab() {
                             </p>
                         </div>
                     </div>
-                    <Button variant="outline" size="sm">Configure</Button>
+                    <Button variant="outline" size="sm" disabled>Comming soon</Button>
                 </div>
             </CardContent>
         </Card>
