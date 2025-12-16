@@ -64,7 +64,7 @@ export const CompletedState = ({ data }: Props) => {
 
                             <Link href={`/agents/${data.agentId}`}>
                                 <Button variant="outline" size="sm" className="gap-2 rounded-full h-8 pl-1 pr-3">
-                                    <GeneratedAvatar seed={data.agent.name} collection="botttsNeutral" className="size-6" />
+                                    <GeneratedAvatar seed={data.agent.name} collection="initials" className="size-6" />
                                     <span className="text-xs font-medium">{data.agent.name}</span>
                                     <ChevronRight className="size-3 text-muted-foreground ml-auto" />
                                 </Button>

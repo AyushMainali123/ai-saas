@@ -16,7 +16,7 @@ export const agentColumns: ColumnDef<TAgentGetOne>[] = [
           <div className="flex items-center gap-3">
             <GeneratedAvatar
               seed={row.original.name}
-              collection="botttsNeutral"
+              collection="initials"
               className="size-10 shrink-0"
             />
 

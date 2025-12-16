@@ -82,7 +82,7 @@ export function DashboardCommand({ open, setOpen }: IDashboardCommandProps) {
                                 >
                                     <div className="flex items-center gap-3">
 
-                                        <GeneratedAvatar collection="botttsNeutral" seed={agent.name} className="size-8 border shadow-sm" />
+                                        <GeneratedAvatar collection="initials" seed={agent.name} className="size-8 border shadow-sm" />
                                         <span className="font-medium text-foreground transition-colors">{agent.name}</span>
                                     </div>
                                     <ChevronRight className="size-4 text-muted-foreground/50 transition-colors" />
