@@ -39,7 +39,7 @@ export const meetingColumns: ColumnDef<TMeetingGetMany[number]>[] = [
                     <div className="flex items-center gap-2">
                         <GeneratedAvatar
                             seed={row.original.agent.name}
-                            collection="botttsNeutral"
+                            collection="initials"
                             className="h-6 w-6 border border-border/50"
                         />
                         <span className="text-sm text-muted-foreground font-medium">

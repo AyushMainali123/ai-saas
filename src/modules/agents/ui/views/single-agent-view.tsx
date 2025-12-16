@@ -77,7 +77,7 @@ export default function SingleAgentView({ agentId }: ISingleAgentViewProps) {
                 <div className="max-w-xl mx-auto">
                     <Card className="shadow-md">
                         <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
-                            <GeneratedAvatar collection="botttsNeutral" seed={agent.name} className="h-16 w-16 bg-muted/50 border-2 border-border" />
+                            <GeneratedAvatar collection="initials" seed={agent.name} className="h-16 w-16 bg-muted/50 border-2 border-border" />
                             <div className="flex flex-col gap-1">
                                 <CardTitle className="text-2xl font-bold">{agent.name}</CardTitle>
                                 <div className="flex items-center gap-1.5 text-sm text-muted-foreground">

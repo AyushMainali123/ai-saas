@@ -74,7 +74,7 @@ export function ChatUI({ meetingId, agentName }: IChatUIProps) {
                                                 <User className="size-4 text-primary" />
                                             </div>
                                         ) : (
-                                            <GeneratedAvatar seed={agentName} collection="botttsNeutral" className="size-8 border border-border" />
+                                            <GeneratedAvatar seed={agentName} collection="initials" className="size-8 border border-border" />
                                         )}
                                     </div>
 
@@ -100,7 +100,7 @@ export function ChatUI({ meetingId, agentName }: IChatUIProps) {
                             ))}
                             {isProcessing && status !== 'streaming' && (
                                 <div className="flex gap-3 max-w-[90%] self-start">
-                                    <GeneratedAvatar seed={agentName} collection="botttsNeutral" className="size-8 border border-border" />
+                                    <GeneratedAvatar seed={agentName} collection="initials" className="size-8 border border-border" />
                                     <div className="bg-card border border-border rounded-2xl rounded-tl-none px-4 py-3 shadow-sm flex items-center gap-2">
                                         <Loader2 className="size-3.5 animate-spin text-muted-foreground" />
                                         <span className="text-xs text-muted-foreground">Thinking...</span>

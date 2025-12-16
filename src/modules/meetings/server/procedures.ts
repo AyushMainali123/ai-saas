@@ -31,13 +31,13 @@ export const meetingsRouter = createTRPCRouter({
 
         const userSpeakers = await db.select().from(user).where(inArray(user.id, speakerIds));
         const agentSpeakers = await db.select().from(agents).where(inArray(agents.id, speakerIds));
-        const speakers = [...userSpeakers, ...agentSpeakers.map(agent => ({ ...agent, image: generateAvatarUri({ seed: agent.name, collection: "botttsNeutral" }) }))];
+        const speakers = [...userSpeakers, ...agentSpeakers.map(agent => ({ ...agent, image: generateAvatarUri({ seed: agent.name, collection: "initials" }) }))];
 
         const resultTranscript = transcripts.map(tr => {
             const speaker = speakers.find(sp => sp.id === tr.speaker_id);
 
             if (!speaker) {
-                return { ...tr, user: { name: "Unknown", image: generateAvatarUri({ seed: "Unknown", collection: "botttsNeutral" }) } }
+                return { ...tr, user: { name: "Unknown", image: generateAvatarUri({ seed: "Unknown", collection: "initials" }) } }
             }
 
             return { ...tr, user: { name: speaker.name, image: speaker.image } }
@@ -136,7 +136,7 @@ export const meetingsRouter = createTRPCRouter({
             {
                 id: existingAgent.id,
                 name: existingAgent.name,
-                image: generateAvatarUri({ seed: existingAgent.name, collection: "botttsNeutral" }),
+                image: generateAvatarUri({ seed: existingAgent.name, collection: "initials" }),
                 role: "user"
             }
         ])

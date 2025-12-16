@@ -120,7 +120,7 @@ export const MeetingForm = ({ onSuccess, onCancel, initialValues }: IMeetingForm
                                             value: agent.id,
                                             children: (
                                                 <div className="flex items-center gap-2">
-                                                    <GeneratedAvatar seed={agent.name} collection="botttsNeutral" className="size-6" />
+                                                    <GeneratedAvatar seed={agent.name} collection="initials" className="size-6" />
                                                     <span>{agent.name}</span>
                                                 </div>
                                             )
