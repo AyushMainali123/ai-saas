@@ -3,11 +3,8 @@
 import {
     BotIcon,
     VideoIcon,
-    SearchIcon,
     SettingsIcon,
-    CreditCardIcon,
     LayoutDashboardIcon,
-    ShieldCheckIcon
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -27,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 
 const mainRoutes = [
@@ -52,7 +50,7 @@ const settingsRoutes = [
     {
         icon: SettingsIcon,
         label: "Settings",
-        href: "/settings", // Placeholder
+        href: "/settings",
     }
 ]
 

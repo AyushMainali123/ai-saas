@@ -34,7 +34,7 @@ export const MeetingForm = ({ onSuccess, onCancel, initialValues }: IMeetingForm
     const createMeeting = useMutation(trpc.meetings.create.mutationOptions({
         onSuccess: async (data) => {
             await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}));
-            await queryClient.invalidateQueries(trpc.premium.getFreeUsage.queryOptions());
+            await queryClient.invalidateQueries(trpc.premium.getUsage.queryOptions());
             onSuccess?.(data.id);
         },
         onError: (error) => {
