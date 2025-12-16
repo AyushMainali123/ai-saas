@@ -1,6 +1,6 @@
-# AI SaaS Platform
+# Convene AI
 
-A comprehensive AI-powered SaaS platform for conducting intelligent video meetings with AI agents. Built with Next.js, this platform enables users to create custom AI agents, schedule meetings, and leverage real-time AI capabilities during video calls.
+Convene AI is a SaaS platform for conducting intelligent video meetings with AI agents. 
 
 ## 🎯 Features
 
