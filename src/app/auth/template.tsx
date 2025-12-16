@@ -12,7 +12,7 @@ export default async function AuthTemplate({ children }: IAuthTemplateProps) {
     });
 
     if (session?.user) {
-        return redirect("/");
+        return redirect("/dashboard");
     }
 
     return children;

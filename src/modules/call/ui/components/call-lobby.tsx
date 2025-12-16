@@ -239,7 +239,7 @@ export const CallLobby = ({ onJoin }: ICallLobby) => {
 
                     <div className="flex items-center justify-between w-full">
                         <Button asChild variant="ghost" size="sm" className="text-zinc-400 hover:text-zinc-100 hover:bg-white/5">
-                            <Link href="/meetings" className="flex items-center gap-2">
+                            <Link href="/dashboard/meetings" className="flex items-center gap-2">
                                 <ArrowLeft className="w-4 h-4" />
                                 Back
                             </Link>

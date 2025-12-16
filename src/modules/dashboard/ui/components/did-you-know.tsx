@@ -14,7 +14,7 @@ export function DidYouKnow() {
                     You can customize your agent's personality and knowledge base.
                 </p>
                 <Button variant="link" className="has-[>svg]:px-0  px-0 mt-2 h-auto text-primary" asChild>
-                    <Link href="/agents">
+                    <Link href="/dashboard/agents">
                         Customize Agents <ArrowRightIcon className="size-3" />
                     </Link>
                 </Button>

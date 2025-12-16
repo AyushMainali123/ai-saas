@@ -24,7 +24,6 @@ export const premiumRouter = createTRPCRouter({
                 id: subscription.productId
             });
 
-            console.log(subscriptionData.metadata);
             maxAgents = subscriptionData.metadata.maxAgents as number || MAX_FREE_AGENTS;
             maxMeetings = subscriptionData.metadata.maxMeetings as number || MAX_FREE_MEETINGS;
         }
@@ -40,8 +39,6 @@ export const premiumRouter = createTRPCRouter({
         const customer = await polarClient.customers.getStateExternal({
             externalId: ctx.auth.user.id
         });
-
-        console.log(customer, "CUSTOMER");
 
         const subscription = customer.activeSubscriptions[0];
 

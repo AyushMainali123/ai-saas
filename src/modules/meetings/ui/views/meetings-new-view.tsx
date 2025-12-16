@@ -14,7 +14,7 @@ export default function MeetingsNewView() {
         <div className="flex flex-col gap-6 p-6 lg:p-8 max-w-3xl mx-auto w-full">
             <div className="flex items-center gap-4">
                 <Button variant="outline" size="icon" asChild className="size-8 rounded-full shadow-none">
-                    <Link href="/meetings">
+                    <Link href="/dashboard/meetings">
                         <ChevronLeft className="size-4" />
                     </Link>
                 </Button>
@@ -35,7 +35,7 @@ export default function MeetingsNewView() {
                 </CardHeader>
                 <CardContent>
                     <MeetingForm
-                        onSuccess={(id) => router.push(`/meetings/${id}`)}
+                        onSuccess={(id) => router.push(`/dashboard/meetings/${id}`)}
                     />
                 </CardContent>
             </Card>

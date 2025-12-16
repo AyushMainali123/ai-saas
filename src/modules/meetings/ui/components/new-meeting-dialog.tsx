@@ -14,7 +14,7 @@ export function NewMeetingDialog({ open, onOpenChange }: INewMeetingDialog) {
     const router = useRouter();
 
     function handleSuccess(id: string) {
-        router.push(`/meetings/${id}`);
+        router.push(`/dashboard/meetings/${id}`);
         onOpenChange(false);
     }
     return (

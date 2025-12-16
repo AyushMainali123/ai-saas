@@ -43,7 +43,7 @@ export default function SignUpView() {
             email: values.email,
             password: values.password,
             name: values.name,
-            callbackURL: "/",
+            callbackURL: "/dashboard",
         }, {
             onError: (error) => {
                 setError(error.error.message);
@@ -52,7 +52,7 @@ export default function SignUpView() {
                 setPending(true);
             },
             onSuccess: () => {
-                router.push("/");
+                router.push("/dashboard");
             },
             onResponse: () => {
                 setPending(false);

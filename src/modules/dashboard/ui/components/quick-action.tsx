@@ -13,19 +13,19 @@ export function QuickAction() {
         </CardHeader>
         <CardContent className="grid gap-2">
             <Button variant="secondary" className="justify-start h-10" asChild>
-                <Link href="/agents/new">
+                <Link href="/dashboard/agents/new">
                     <BotIcon className="mr-2 size-4" />
                     Create new agent
                 </Link>
             </Button>
             <Button variant="secondary" className="justify-start h-10" asChild>
-                <Link href="/meetings/new">
+                <Link href="/dashboard/meetings/new">
                     <VideoIcon className="mr-2 size-4" />
                     Start new session
                 </Link>
             </Button>
             <Button variant="secondary" className="justify-start h-10" asChild>
-                <Link href="/settings">
+                <Link href="/dashboard/settings">
                     <ActivityIcon className="mr-2 size-4" />
                     Check Usage
                 </Link>

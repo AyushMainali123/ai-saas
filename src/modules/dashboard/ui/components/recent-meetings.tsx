@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRightIcon, VideoIcon, InfoIcon } from "lucide-react";
 import Link from "next/link";
-import { RECENT_MEETINGS_LIMIT } from "@/modules/home/constants";
+import { RECENT_MEETINGS_LIMIT } from "@/modules/dashboard/constants";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { INITIAL_PAGE } from "@/app/constants";
@@ -37,13 +37,13 @@ export function RecentMeetings() {
                             Get started by creating your first meeting summary.
                         </p>
                         <Button className="mt-4" asChild>
-                            <Link href="/meetings/new">Create New Meeting</Link>
+                            <Link href="/dashboard/meetings/new">Create New Meeting</Link>
                         </Button>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-4">
                         {meetings.items.map((meeting) => (
-                            <Link href={`/meetings/${meeting.id}`} key={meeting.id}>
+                            <Link href={`/dashboard/meetings/${meeting.id}`} key={meeting.id}>
                                 <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/20 hover:bg-muted/40 transition-colors">
                                     <div className="flex items-center gap-4">
                                         <div className="flex items-center justify-center size-9 rounded-md bg-background border">
@@ -61,7 +61,7 @@ export function RecentMeetings() {
                             </Link>
                         ))}
                         <Button variant="outline" className="w-full mt-2" asChild>
-                            <Link href="/meetings">View All Meetings</Link>
+                            <Link href="/dashboard/meetings">View All Meetings</Link>
                         </Button>
                     </div>
                 )}
