@@ -20,6 +20,7 @@ import {
     SidebarGroupLabel
 } from "@/components/ui/sidebar";
 import { DashboardUserButton } from "./dashboard-user-button";
+import { PlanUpgradeBanner } from "./plan-upgrade-banner";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useTRPC } from "@/trpc/client";
@@ -158,7 +159,8 @@ export const DashboardSidebar = () => {
                 </SidebarGroup>
             </SidebarContent>
 
-            <SidebarFooter className="p-4 pt-0">
+            <SidebarFooter className="p-4 pt-0 space-y-3">
+                <PlanUpgradeBanner />
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <DashboardUserButton />

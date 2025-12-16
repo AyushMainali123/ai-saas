@@ -53,7 +53,7 @@ export function StatsGrid() {
                 <CardContent>
                     <div className="text-2xl font-bold text-primary">{currentPlan}</div>
                     <p className="text-xs text-primary/80 mt-1">
-                        {currentPlan === "Free" ? "Upgrade for more limits" : "Unlimited meetings and agents"}
+                        {currentPlan !== "Enterprise" ? "Upgrade for more limits" : "Unlimited meetings and agents"}
                     </p>
                 </CardContent>
             </Card>
